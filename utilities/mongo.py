@@ -23,3 +23,13 @@ def create_ttl_in_collections(index_name: str, ttl_interval_in_seconds: int, *co
     for collection in collections:
         collection.create_index(
             index_name, expireAfterSeconds=ttl_interval_in_seconds)
+
+
+def is_collection(connection_string: str, db: str, collection: str):
+    connection = MongoClient(connection_string)[db]
+
+    if collection in connection.list_collection_names():
+        return True
+    else:
+        return False
+                                        

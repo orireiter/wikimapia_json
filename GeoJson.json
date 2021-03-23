@@ -1,0 +1,129 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    "31\u00b018'33\"N",
+                    "35\u00b021'11\"E"
+                ]
+            },
+            "properties": {
+                "location": {
+                    "country": "Israel",
+                    "region": "Hadarom",
+                    "district": "Arad"
+                },
+                "description": {
+                    "description": "One of a series of camps around Masada."
+                },
+                "nearby_places": [
+                    {
+                        "name": "Salt evaporation pond",
+                        "distance": "13\u00a0km"
+                    },
+                    {
+                        "name": "The Dead Sea",
+                        "distance": "13\u00a0km"
+                    },
+                    {
+                        "name": "Cape Costigan",
+                        "distance": "14\u00a0km"
+                    },
+                    {
+                        "name": "Salt evaporation pond",
+                        "distance": "16\u00a0km"
+                    },
+                    {
+                        "name": "Salt evaporation pond",
+                        "distance": "18\u00a0km"
+                    },
+                    {
+                        "name": "Wadi Al Karak",
+                        "distance": "22\u00a0km"
+                    },
+                    {
+                        "name": "Dead Sea Evaporation Pans",
+                        "distance": "24\u00a0km"
+                    },
+                    {
+                        "name": "Judaean Desert",
+                        "distance": "24\u00a0km"
+                    },
+                    {
+                        "name": "\u0650Al Aghwar",
+                        "distance": "25\u00a0km"
+                    },
+                    {
+                        "name": "Negev",
+                        "distance": "99\u00a0km"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    "31\u00b019'21\"N",
+                    "35\u00b021'17\"E"
+                ]
+            },
+            "properties": {
+                "location": {
+                    "country": "Israel",
+                    "region": "Hadarom",
+                    "district": "Arad"
+                },
+                "description": {
+                    "description": "one of a series of camps around Masada"
+                },
+                "nearby_places": [
+                    {
+                        "name": "The Dead Sea",
+                        "distance": "12\u00a0km"
+                    },
+                    {
+                        "name": "Cape Costigan",
+                        "distance": "13\u00a0km"
+                    },
+                    {
+                        "name": "Salt evaporation pond",
+                        "distance": "15\u00a0km"
+                    },
+                    {
+                        "name": "Salt evaporation pond",
+                        "distance": "17\u00a0km"
+                    },
+                    {
+                        "name": "Salt evaporation pond",
+                        "distance": "19\u00a0km"
+                    },
+                    {
+                        "name": "Wadi Al Karak",
+                        "distance": "23\u00a0km"
+                    },
+                    {
+                        "name": "Judaean Desert",
+                        "distance": "23\u00a0km"
+                    },
+                    {
+                        "name": "\u0650Al Aghwar",
+                        "distance": "25\u00a0km"
+                    },
+                    {
+                        "name": "Dead Sea Evaporation Pans",
+                        "distance": "26\u00a0km"
+                    },
+                    {
+                        "name": "Negev",
+                        "distance": "100\u00a0km"
+                    }
+                ]
+            }
+        }
+    ]
+}

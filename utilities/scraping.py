@@ -1,7 +1,7 @@
 import re
 import requests
 import datetime
-from json import dump
+from json import dumps
 from inspect import isclass
 
 from bs4 import BeautifulSoup as bs
@@ -123,11 +123,11 @@ def iterate_function(urls: list, callback: callable, **kwargs):
     else:
         if urls != None:
             for url in urls:
-                try:
-                    call = callback(url)
-                    call(**kwargs)
-                except:
-                    print(f'{datetime.datetime.now()} -> ERROR: couldn\'t scrape {url}')
+                # try:
+                call = callback(url)
+                call(**kwargs)
+                # except:
+                #     print(f'{datetime.datetime.now()} -> ERROR: couldn\'t iterate with {url}')
         else:
             print(f'{datetime.datetime.now()} -> ERROR: couldn\'t execute {callback.__name__}')
 
@@ -137,15 +137,20 @@ class GeoScraper():
         if res.status_code != 200:
             print('Not status code 200.')
             raise Exception(
-                f'{datetime.datetime.now()} ERROR: couldn\'t scrape {url}')
+                f'{datetime.datetime.now()} ERROR: GeoScraper couldn\'t scrape {url}')
         else:
             self.html = res.text
 
-    def __call__(self, connection_string, db, collection):
+    def __call__(self, connection_string, db, collection, output_file):
         geo_json = self.parse_point_to_geoJSON()
+        
+        with open(output_file, 'a') as file:
+            file.write(dumps(geo_json)+',\n')
+        
         db_connection = db_connect(connection_string, db, collection)
         db_connection.insert_one(geo_json)
-
+        
+            
 
     def parse_point_to_geoJSON(self):
 
