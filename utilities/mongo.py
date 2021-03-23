@@ -26,6 +26,11 @@ def create_ttl_in_collections(index_name: str, ttl_interval_in_seconds: int, *co
 
 
 def is_collection(connection_string: str, db: str, collection: str):
+    '''
+        connects to a mongo server and checks if 
+        said collection exists in that db.
+    '''
+    
     connection = MongoClient(connection_string)[db]
 
     if collection in connection.list_collection_names():
