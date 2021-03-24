@@ -3,8 +3,12 @@ A service that scrapes points of interest in a given country.
 
 ---
 ## Installation
-First, install docker and dokcer-compose. \
-After cloning the repository, from its main folder, cd into docker and again into docker-compose. There, execute docker-compose up:
+First, install docker and dokcer-compose as well as python (preferably version 3.8.3). \
+After cloning the repository, download the required modules (when in the repository's main folder):
+```bash
+$ python -m pip install -r ./docker/scraper/requirements.txt
+```
+From the main folder, cd into docker and again into docker-compose. There, execute docker-compose up:
 ```bash
 $ cd ./docker/docker-compose
 $ docker-compose up
