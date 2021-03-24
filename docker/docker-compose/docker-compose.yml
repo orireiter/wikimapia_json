@@ -1,0 +1,39 @@
+version: "3.8"
+services:
+  tor:
+    build: ../tor
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    ports:
+      - 9050:9050
+      - 9051:9051
+    container_name: tor
+
+  mongodb:
+    image: mongo
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodata:/data/db
+    command: --quiet
+
+  # scraper:
+  #   build: ../scraper
+  #   deploy:
+  #     replicas: 1
+  #     restart_policy:
+  #       condition: on-failure
+  #   container_name: scraper
+  #   volumes:
+  #     - ./GeoJson.json:/app/GeoJson.json
+  #     - ./.env:/app/.env
+
+volumes:
+  mongodata:

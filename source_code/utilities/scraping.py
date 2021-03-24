@@ -14,7 +14,7 @@ from utilities.general import iterate_function
 def check_last_page(url: str):
     res = requests.get(url)
     if res.status_code != 200:
-        print('Not status code 200, did you type a country name correctly.')
+        print(f'{datetime.datetime.now()} ERROR: Not status code 200 for {url}, did you type a country name correctly?')
         return None
     else:
         return res.text
@@ -43,13 +43,38 @@ def get_wikimapia_links_from_html(*url_parts: str):
 
 
 class GeoScraper():
-    def __init__(self, url):
-        '''
+    '''
             This class is sort of a specific extension of bs4
             that scrapes points of interest in wikimapia and 
             returns a geojson.
+
+            Attributes
+            ----------
+            url: str
+                A url of an html of a point of interest in wikimapia.
+            requests_session: requests.session
+                A session used to get the html form the url given.
+            
+            Methods
+            -------
+            parse_point_to_geoJSON:
+                Takes the html and parses into a dictionary.
+            get_geometry:
+                This function extracts the coordinates from the html.
+            get_properties:
+                This function extracts additional properties from the html.
+            get_location:
+                This function extracts location-related info from the html.
+            get_description:
+                This function extracts description-related info from the html.
+            get_nearby_places:
+                This function extracts nearby-related info from the html.
+            __call__:
+                This function executes parse_point_to_geoJSON,
+                appends it to an output file given, and inserts it to mongodb.
         '''
-        res = requests.get(url)
+    def __init__(self, url, requests_session, **kwargs):
+        res = requests_session.get(url)
         if res.status_code != 200:
             print('Not status code 200.')
             raise Exception(
@@ -57,7 +82,7 @@ class GeoScraper():
         else:
             self.html = res.text
 
-    def __call__(self, mongo_connection_string, db, collection, output_file):
+    def __call__(self, mongo_connection_string, db, collection, output_file, eof=False,**kwargs):
         '''
             When an object of this class is used as a callable
             this function will be executed.
@@ -68,15 +93,21 @@ class GeoScraper():
             so the next time a country is asked for, it'll already
             be in the db.
         '''
+
         geo_json = self.parse_point_to_geoJSON()
+        
+        if eof:
+            eol = '\n'
+        else:
+            eol = ',\n'
 
         with open(output_file, 'a') as file:
-            file.write(dumps(geo_json)+',\n')
+            file.write(dumps(geo_json)+eol)
 
         db_connection = db_connect(mongo_connection_string, db, collection)
         db_connection.insert_one(geo_json)
 
-    def parse_point_to_geoJSON(self):
+    def parse_point_to_geoJSON(self) -> dict:
         '''
             This function takes the given html and extracts relevant info from it.
             returning it in a json made in geojson format.
@@ -98,7 +129,7 @@ class GeoScraper():
         }
 
     @staticmethod
-    def get_geometry(html_object):
+    def get_geometry(html_object) -> dict:
         '''
             This function extracts the coordinates from the html.
         '''
@@ -113,7 +144,7 @@ class GeoScraper():
 
         return geometry
 
-    def get_properties(self, html_object):
+    def get_properties(self, html_object) -> dict:
         '''
             This function extracts additional properties from the html.
         '''
@@ -133,7 +164,7 @@ class GeoScraper():
                 'nearby_places': nearby_places}
 
     @staticmethod
-    def get_location(html_object):
+    def get_location(html_object) -> dict:
         '''
             This function extracts location-related info from the html.
         '''
@@ -149,7 +180,7 @@ class GeoScraper():
         return location
 
     @staticmethod
-    def get_description(html_object):
+    def get_description(html_object) -> dict:
         '''
             This function extracts description-related info from the html.
         '''
@@ -165,7 +196,7 @@ class GeoScraper():
         return description_dict
 
     @staticmethod
-    def get_nearby_places(html_object):
+    def get_nearby_places(html_object) -> list:
         '''
             This function extracts nearby-related info from the html.
         '''

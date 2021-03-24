@@ -1,4 +1,0 @@
-pymongo==3.10.1
-beautifulsoup4==4.9.3
-lxml==4.6.2
-python-dotenv==0.15.0

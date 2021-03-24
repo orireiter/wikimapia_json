@@ -52,7 +52,8 @@ def iterate_function(urls: list, callback: callable, **kwargs):
         # __call__ method.
         for url in urls:
             try:
-                call = callback(url)
+                # print(kwargs)
+                call = callback(url, **kwargs)
                 call(**kwargs)
             except:
                 print(f'{datetime.datetime.now()} -> ERROR: couldn\'t iterate with {url}')
