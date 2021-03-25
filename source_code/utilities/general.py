@@ -23,9 +23,13 @@ def recursive_executer(
         if type(results) == type([]):
             for result in results:
                 # when reaching an inner layer, the layer is reduced
-                # other than that, everything elser is sent to the function.
+                # other than that, everything elser is sent to the function again.
                 recursive_executer(recursive_function,
-                                   callback_function, layers-1, *args, result, **kwargs)
+                                   callback_function,
+                                   layers-1,
+                                   *args,
+                                   result,
+                                   **kwargs)
         else:
             print(f'{datetime.datetime.now()} -> ERROR: couldn\'t return '
                   f'values with function {recursive_function.__name__}'

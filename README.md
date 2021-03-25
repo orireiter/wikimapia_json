@@ -3,7 +3,7 @@ A service that scrapes points of interest in a given country.
 
 ---
 ## Installation
-First, install docker and dokcer-compose as well as python (preferably version 3.8.3). \
+First, install docker and docker-compose as well as python (preferably version 3.8.3). \
 After cloning the repository, download the required modules (when in the repository's main folder):
 ```bash
 $ python -m pip install -r ./docker/scraper/requirements.txt
@@ -15,7 +15,11 @@ $ docker-compose up
 ```
 Then, in a new terminal, cd back to the repository's main folder, and run the main script along with a country, a scraping source (api/html) and an output json:
 ```bash
-$ python ./source_code/main.py france api france.json
+$ python ./source_code/main.py -c france -s api -o france.json
+```
+_Or_, for more info about the CLI:
+```
+$ python ./source_code/main.py --help
 ```
 ---
 ## Architecture

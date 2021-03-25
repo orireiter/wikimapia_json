@@ -221,6 +221,11 @@ class HTMLGeoScraper():
 
 
 class APIGeoScraper():
+    ''' 
+        Similar to the HTMLGeoScraper class, but works 
+        with wikimapia's API instead.
+    '''
+
     def __init__(self, url, requests_session, **kwargs):
         self.id = url.split('/')[3]
         res = requests_session.get(
