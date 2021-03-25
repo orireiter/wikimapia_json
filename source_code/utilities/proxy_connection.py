@@ -1,5 +1,6 @@
 from time import sleep
 import datetime
+from json import loads
 
 import requests
 from stem import Signal
@@ -59,7 +60,7 @@ class TorRequests():
         # Creating a session and using it to check current ip.
         # This is necessary to compare it to a new ip later on.
         session = self.get_tor_session()
-        self.previous_ip = session.get("http://httpbin.org/ip").text
+        self.previous_ip = loads(session.get("http://httpbin.org/ip").text)['origin']
 
         self.request_counter = 0
 
@@ -90,7 +91,7 @@ class TorRequests():
             session = self.get_tor_session()
             self.renew_connection()
 
-            new_ip = session.get("http://httpbin.org/ip").text
+            new_ip = loads(session.get("http://httpbin.org/ip").text)['origin']
 
             if self.previous_ip != new_ip:
                 print(

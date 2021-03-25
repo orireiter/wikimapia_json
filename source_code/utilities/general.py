@@ -48,7 +48,7 @@ def iterate_function(urls: list, callback: callable, **kwargs):
             callback(url, **kwargs)
     elif type(urls) == type([]):
         # if a class was sent, it is first instanciated
-        # and then called. the next call executes the 
+        # and then called. the next call executes the
         # __call__ method.
         for url in urls:
             try:
@@ -56,6 +56,25 @@ def iterate_function(urls: list, callback: callable, **kwargs):
                 call = callback(url, **kwargs)
                 call(**kwargs)
             except:
-                print(f'{datetime.datetime.now()} -> ERROR: couldn\'t iterate with {url}')
+                print(
+                    f'{datetime.datetime.now()} -> ERROR: couldn\'t iterate with {url}')
     else:
-        print(f'{datetime.datetime.now()} -> ERROR: couldn\'t execute {callback.__name__}')
+        print(
+            f'{datetime.datetime.now()} -> ERROR: couldn\'t execute {callback.__name__}')
+
+
+def dictionary_key_repacker(dictionary: dict,
+                            originialKey_n_wantedKey_list: list):
+    '''
+        This function takes a dictionary and repacks it with new keys.
+        The second argument is list containing original 
+        key paired with a new key (or without it to keep the same name).
+        It will return a new dictionary discarded of not given keys.
+        \n
+        before_dictionary = {'name': 'ori', 'age': 21, 'address': 'tlv'}\n
+        renew_keys = [['name', 'full_name'], ['age']]\n
+        print(dictionary_key_repacker(before_dictionary, renew_keys))\n
+        -> {'full_name': 'ori', 'age': 21}
+    '''
+    return {key[-1]: dictionary[key[0]]
+            for key in originialKey_n_wantedKey_list}

@@ -5,21 +5,29 @@ import datetime
 
 from dotenv import load_dotenv
 
-from utilities.general import recursive_executer
-from utilities.scraping import get_wikimapia_links_from_html, iterate_function
-from utilities.scraping import GeoScraper
+from utilities.general import recursive_executer, iterate_function
+from utilities.scraping import get_wikimapia_links_from_html
+from utilities.scraping import HTMLGeoScraper, APIGeoScraper
 from utilities.mongo import is_collection, db_connect
 from utilities.proxy_connection import TorRequests
 
 
 if __name__ == '__main__':
-    if len(sys.argv) <= 2:
-        print('Please supply a country and an output file in the CLI when '
-              'running the script.')
+    if len(sys.argv) <= 3:
+        print('Please supply a country, a scraping source and an '
+              'output file in the CLI when running the script.')
 
     else:
         country = sys.argv[1]
-        output_file = sys.argv[2]
+        scraping_source = sys.argv[2]
+        output_file = sys.argv[3]
+        if scraping_source == 'html':
+            scraper = HTMLGeoScraper
+        elif scraping_source == 'api':
+            scraper = APIGeoScraper
+        else:
+            raise Exception(f'{datetime.datetime.now()} -> Error: scraping '
+            'source must be either html OR api.')
 
         # First, the .env file is loaded into the process.
         load_dotenv()
@@ -68,12 +76,30 @@ if __name__ == '__main__':
             print(f'{datetime.datetime.now()} -> INFO: {country} not in db,'
                   ' starting to scrape.')
             recursive_executer(get_wikimapia_links_from_html, iterate_function, LAYERS,
-                               WIKIMAPIA_COUNTRIES_PAGE+country+'/', callback=GeoScraper,
+                               WIKIMAPIA_COUNTRIES_PAGE+country+'/', callback=scraper,
                                mongo_connection_string=CONNECTION_STRING, db=DATABASE,
                                collection=country, output_file=output_file, requests_session=proxied_connection)
 
         #  This is needed to close the geojson.
         with open(output_file, 'a') as file:
-            file.write(''']}''')
+            file.write('''{
+                "type": null,
+                "geometry": {
+                    "type": null,
+                    "coordinates": []
+                },
+                "properties": {
+                    "location": {
+                        "country": null,
+                        "region": null,
+                        "district": null
+                    },
+                    "description": {
+                        "description": null
+                    },
+                    "nearby_places": []
+                }
+                }
+            ]}''')
 
         print(f'{datetime.datetime.now()} -> INFO: Done scraping {country}!')

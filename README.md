@@ -13,9 +13,9 @@ From the main folder, cd into docker and again into docker-compose. There, execu
 $ cd ./docker/docker-compose
 $ docker-compose up
 ```
-Then, in a new terminal, cd back to the repository's main folder, and run the main script along with a country and an output json:
+Then, in a new terminal, cd back to the repository's main folder, and run the main script along with a country, a scraping source (api/html) and an output json:
 ```bash
-$ python ./source_code/main.py france france.json
+$ python ./source_code/main.py france api france.json
 ```
 ---
 ## Architecture
@@ -33,7 +33,10 @@ In either case, a GeoJSON will be created in the file specified in the CLI.
 ---
 ## Configuration
 The configuration files in this project are the __docker-compose.yml__ (which will usually work fine without modification), and the __.env__ (which also should work).
-
-
-
-
+You may wish to change the TOR_SWITCH_IP_EVERY field in corellation to the scraping source you've chosen.
+* __API__ \
+    Scraping with the api may give better info, with the chance of being slower.
+    __It requires an ip switch every 3 requests to not get blocked.__
+* __HTML__ \
+    Scraping with the html will give less information, but requires less ip changes.
+    __The recommended ip switches are after 20 requests.__
